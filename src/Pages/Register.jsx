@@ -16,10 +16,20 @@ import { useContext } from "react";
 import AuthContext from "@/provider/AuthContext";
 import toast from "react-hot-toast";
 export function Register() {
-  const { register, handleSubmit } = useForm();
-  const { googleUser } = useContext(AuthContext);
+  const { register, handleSubmit, reset } = useForm();
+  const { googleUser, createLogin } = useContext(AuthContext);
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    createLogin(data.email, data.password)
+      .then((result) => {
+        toast.success("Register Successfully!", result);
+        reset()
+      })
+      .catch((error) => {
+        toast.error("Falied Register! Pleaase try again!", error);
+      });
+  };
   const handleGoogleUser = () => {
     googleUser()
       .then(() => {
@@ -73,7 +83,9 @@ export function Register() {
                       <Label htmlFor="password">Password</Label>
                     </div>
                     <Input
-                      {...register("password", { pattern: /^[A-Za-z]+$/i })}
+                      {...register("password", {
+                        pattern: /^[A-Za-z0-9!@#$%^&*()_+=-]+$/,
+                      })}
                       type="password"
                       required
                     />

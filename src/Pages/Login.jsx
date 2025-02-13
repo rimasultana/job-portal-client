@@ -13,11 +13,20 @@ import { useContext } from "react";
 import AuthContext from "@/provider/AuthContext";
 
 export function Login() {
-  const { register, handleSubmit } = useForm();
-    const { googleUser } = useContext(AuthContext);
+  const { register, handleSubmit, reset } = useForm();
+  const { googleUser, signUser } = useContext(AuthContext);
 
-
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    signUser(data.email, data.password)
+      .then((result) => {
+        toast.success("Register Successfully!", result);
+        reset();
+      })
+      .catch((error) => {
+        toast.error("Falied Register! Pleaase try again!", error);
+      });
+  };
   const handleGoogleUser = () => {
     googleUser()
       .then(() => {
@@ -76,7 +85,11 @@ export function Login() {
                     </span>
                   </div>
                   <div className="flex">
-                    <Button onClick={handleGoogleUser} variant="outline" className="w-full">
+                    <Button
+                      onClick={handleGoogleUser}
+                      variant="outline"
+                      className="w-full"
+                    >
                       <img src={google} alt="google" className="w-6" />
 
                       <span className="sr-only">Login with Google</span>
