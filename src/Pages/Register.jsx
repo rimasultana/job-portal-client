@@ -10,8 +10,25 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router";
-import google from "../assets/Google.webp"
+import google from "../assets/Google.webp";
+import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import AuthContext from "@/provider/AuthContext";
+import toast from "react-hot-toast";
 export function Register() {
+  const { register, handleSubmit } = useForm();
+  const { googleUser } = useContext(AuthContext);
+
+  const onSubmit = (data) => console.log(data);
+  const handleGoogleUser = () => {
+    googleUser()
+      .then(() => {
+        toast.success("Successfully Login!");
+      })
+      .catch((error) => {
+        toast.error("Failed Login", error);
+      });
+  };
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-lg">
@@ -22,13 +39,13 @@ export function Register() {
               <CardDescription></CardDescription>
             </CardHeader>
             <CardContent>
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-6">
                   <div className="grid gap-2">
                     <Label htmlFor="email">Name</Label>
                     <Input
-                      id="email"
-                      type="email"
+                      {...register("name")}
+                      type="text"
                       placeholder="rima@example.com"
                       required
                     />
@@ -36,17 +53,17 @@ export function Register() {
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
-                      id="email"
+                      {...register("email")}
                       type="email"
                       placeholder="m@example.com"
                       required
                     />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">Photo URL</Label>
                     <Input
-                      id="email"
-                      type="email"
+                      {...register("photo")}
+                      type="text"
                       placeholder="m@example.com"
                       required
                     />
@@ -55,12 +72,20 @@ export function Register() {
                     <div className="flex items-center">
                       <Label htmlFor="password">Password</Label>
                     </div>
-                    <Input id="password" type="password" required />
+                    <Input
+                      {...register("password", { pattern: /^[A-Za-z]+$/i })}
+                      type="password"
+                      required
+                    />
                   </div>
                   <Button type="submit" className="w-full bg-cyan-500">
                     Login
                   </Button>
-                  <Button variant="outline" className="w-full bg-cyan-100">
+                  <Button
+                    onClick={handleGoogleUser}
+                    variant="outline"
+                    className="w-full bg-cyan-100"
+                  >
                     <img src={google} alt="google" className="w-6" />
                   </Button>
                 </div>

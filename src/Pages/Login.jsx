@@ -6,16 +6,34 @@ import { Label } from "@/components/ui/label";
 import animation from "../assets/animation.json";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { Link } from "react-router";
-import google from "../assets/Google.webp"
+import google from "../assets/Google.webp";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useContext } from "react";
+import AuthContext from "@/provider/AuthContext";
 
 export function Login() {
+  const { register, handleSubmit } = useForm();
+    const { googleUser } = useContext(AuthContext);
+
+
+  const onSubmit = (data) => console.log(data);
+  const handleGoogleUser = () => {
+    googleUser()
+      .then(() => {
+        toast.success("Successfully Login!");
+      })
+      .catch((error) => {
+        toast.error("Failed Login", error);
+      });
+  };
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-3xl">
         <div className={cn("flex flex-col gap-6")}>
           <Card className="overflow-hidden">
             <CardContent className="grid p-0 md:grid-cols-2">
-              <form className="p-6 md:p-8">
+              <form onSubmit={handleSubmit(onSubmit)} className="p-6 md:p-8">
                 <div className="flex flex-col gap-6">
                   <div className="flex flex-col items-center text-center">
                     <h1 className="text-2xl font-bold">Welcome back</h1>
@@ -26,7 +44,7 @@ export function Login() {
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
-                      id="email"
+                      {...register("email")}
                       type="email"
                       placeholder="m@example.com"
                       required
@@ -42,7 +60,12 @@ export function Login() {
                         Forgot your password?
                       </a>
                     </div>
-                    <Input id="password" type="password" required />
+                    <Input
+                      {...register("password")}
+                      id="password"
+                      type="password"
+                      required
+                    />
                   </div>
                   <Button type="submit" className="w-full bg-cyan-400">
                     Login
@@ -53,15 +76,18 @@ export function Login() {
                     </span>
                   </div>
                   <div className="flex">
-                    <Button variant="outline" className="w-full">
-                     <img src={google} alt="google" className="w-6"/>
+                    <Button onClick={handleGoogleUser} variant="outline" className="w-full">
+                      <img src={google} alt="google" className="w-6" />
 
                       <span className="sr-only">Login with Google</span>
                     </Button>
                   </div>
                   <div className="text-center text-sm">
                     Don&apos;t have an account?{" "}
-                    <Link to={"/register"} className="underline underline-offset-4 text-red-500">
+                    <Link
+                      to={"/register"}
+                      className="underline underline-offset-4 text-red-500"
+                    >
                       Sign up
                     </Link>
                   </div>
