@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import google from "../assets/Google.webp";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
@@ -18,25 +18,28 @@ import toast from "react-hot-toast";
 export function Register() {
   const { register, handleSubmit, reset } = useForm();
   const { googleUser, createLogin } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data);
     createLogin(data.email, data.password)
       .then((result) => {
         toast.success("Register Successfully!", result);
-        reset()
+        reset();
+        navigate("/");
       })
       .catch((error) => {
-        toast.error("Falied Register! Pleaase try again!", error);
+        toast.error(`Falied Register! Pleaase try again!, ${error.messege}`);
       });
   };
   const handleGoogleUser = () => {
     googleUser()
       .then(() => {
         toast.success("Successfully Login!");
+        navigate("/");
       })
       .catch((error) => {
-        toast.error("Failed Login", error);
+        toast.error(`Falied Register! Pleaase try again!, ${error.messege}`);
       });
   };
   return (

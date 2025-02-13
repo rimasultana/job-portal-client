@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import animation from "../assets/animation.json";
 import { Player } from "@lottiefiles/react-lottie-player";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import google from "../assets/Google.webp";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -15,6 +15,7 @@ import AuthContext from "@/provider/AuthContext";
 export function Login() {
   const { register, handleSubmit, reset } = useForm();
   const { googleUser, signUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -22,18 +23,20 @@ export function Login() {
       .then((result) => {
         toast.success("Register Successfully!", result);
         reset();
+        navigate("/");
       })
       .catch((error) => {
-        toast.error("Falied Register! Pleaase try again!", error);
+        toast.error(`Falied Register! Pleaase try again!, ${error.messege}`);
       });
   };
   const handleGoogleUser = () => {
     googleUser()
       .then(() => {
         toast.success("Successfully Login!");
+        navigate("/")
       })
       .catch((error) => {
-        toast.error("Failed Login", error);
+        toast.error(`Falied Register! Pleaase try again!, ${error.messege}`);
       });
   };
   return (
