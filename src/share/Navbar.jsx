@@ -50,18 +50,16 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="bg-cyan-50 py-4 sticky top-0 z-10">
+    <div className="bg-cyan-50 py-4 sticky top-0 z-10 w-full shadow-md">
       <div className="flex justify-between items-center w-11/12 mx-auto">
         <div className="flex items-center">
           <img src={logo} alt="jobstack-logo" className="w-14" />
-          <h1 className="md:text-3xl text-xl text-cyan-400 font-bold">
-            JobStack
-          </h1>
+          <h1 className="md:text-3xl text-xl text-cyan-400 font-bold">JobStack</h1>
         </div>
-        <nav>
-          <ul className="gap-5 hidden md:flex relative">{links}</ul>
+        <nav className="hidden md:flex gap-5"> 
+          <ul className="flex items-center gap-5">{links}</ul>
         </nav>
-        <div className="md:flex hidden">
+        <div className="hidden md:flex">
           <Link
             to={"/login"}
             className="btn bg-cyan-400 py-2 px-3 rounded-md text-white font-bold"
@@ -69,20 +67,24 @@ const Navbar = () => {
             Login
           </Link>
         </div>
-        <div className="block md:hidden">
-          <button onClick={() => setOpen(!open)}>
+        <div className="md:hidden">
+          <button onClick={() => setOpen(!open)} className="text-cyan-400 text-2xl">
             {open ? <GiTireIronCross /> : <FaBars />}
           </button>
         </div>
       </div>
-      <nav className={`${open ? "block" : "hidden"}`}>
-        <ul className="absolute bg-amber-400">
-          {links}
-          <Link to={"/login"} className="btn bg-cyan-400 text-white">
-            Login
-          </Link>
-        </ul>
-      </nav>
+      <div className={`fixed top-0 left-0 w-full h-48 bg-cyan-50 transition-transform duration-300 ${open ? "translate-x-0" : "-translate-x-full"}`}>
+        <div className="flex justify-between items-center p-5 border-b">
+          <h1 className="text-2xl font-bold text-cyan-400">JobStack</h1>
+          <button onClick={() => setOpen(false)} className="text-cyan-400 text-2xl">
+            <GiTireIronCross />
+          </button>
+        </div>
+        <ul className="flex flex-col items-center gap-5 mt-5">{links}</ul>
+        <div className="flex justify-center mt-5">
+          <Link to={"/login"} className="btn bg-cyan-400 text-white py-2 px-4 rounded-md">Login</Link>
+        </div>
+      </div>
     </div>
   );
 };
