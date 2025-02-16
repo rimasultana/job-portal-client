@@ -17,18 +17,18 @@ const AuthProvider = ({ children }) => {
   const googleProvider = new GoogleAuthProvider();
 
   const createLogin = (email, password) => {
-    setLoading(false);
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
   const signUser = (email, password) => {
-    setLoading(false);
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
   const logOut = () => {
     return signOut(auth);
   };
   const googleUser = () => {
-    setLoading(false);
+    setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
 
@@ -40,7 +40,6 @@ const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  
   const info = {
     users,
     loading,
