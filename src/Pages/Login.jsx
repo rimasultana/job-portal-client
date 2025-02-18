@@ -33,7 +33,7 @@ export function Login() {
     googleUser()
       .then(() => {
         toast.success("Successfully Login!");
-        navigate("/")
+        navigate("/");
       })
       .catch((error) => {
         toast.error(`Falied Register! Pleaase try again!, ${error.messege}`);

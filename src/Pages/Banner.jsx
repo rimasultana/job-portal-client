@@ -4,10 +4,11 @@ import team1 from "../assets/team1.jpg";
 import team2 from "../assets/team2.jpg";
 const Banner = () => {
   return (
-    <section className="py-20 px-5 bg-gray-200">
+    <section className="py-20 px-5 bg-gray-50">
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 max-w-5xl mx-auto">
         <div className="text-center md:text-left">
           <motion.h1
+          
             animate={{ x: 50, color: ["#48dbfb", "#74b9ff", "#fd79a8"] }}
             transition={{
               duration: 2,
