@@ -1,4 +1,5 @@
 import Banner from "./Banner";
+import HotJobs from "./HotJobs";
 import Service from "./Service";
 
 const Home = () => {
@@ -6,6 +7,7 @@ const Home = () => {
     <>
       <Banner />
       <Service />
+      <HotJobs/>
     </>
   );
 };
