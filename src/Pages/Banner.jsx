@@ -2,9 +2,11 @@ import { easeInOut, easeOut } from "motion";
 import * as motion from "motion/react-client";
 import team1 from "../assets/team1.jpg";
 import team2 from "../assets/team2.jpg";
+import Design from "./Design";
 const Banner = () => {
   return (
     <section className="py-20 px-5 bg-gray-50">
+     <Design className="absolute inset-0 z-0" />
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 max-w-5xl mx-auto">
         <div className="text-center md:text-left">
           <motion.h1
