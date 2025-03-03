@@ -30,7 +30,7 @@ const JobDetails = () => {
       </div>
 
       <div className="text-center mt-6">
-        <Link to={"/jobapply/:id"} className="btn btn-primary bg-cyan-400 py-2 px-4 rounded-md text-white font-bold">
+        <Link to={`/jobapply/${job._id}`} className="btn btn-primary bg-cyan-400 py-2 px-4 rounded-md text-white font-bold">
           Apply Now
         </Link>
       </div>

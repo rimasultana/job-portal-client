@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router"; 
+import { Link } from "react-router";
 import { motion } from "framer-motion";
 
 const HotJobs = () => {
@@ -10,7 +10,7 @@ const HotJobs = () => {
     axios
       .get(`http://localhost:5000/jobs`)
       .then((res) => {
-        setJobs(res.data.slice(0, 8)); 
+        setJobs(res.data.slice(0, 8));
       })
       .catch((error) => {
         console.log(error);
@@ -41,19 +41,18 @@ const HotJobs = () => {
                 className="card-body"
               >
                 <img
-                  src={job.company_logo} 
+                  src={job.company_logo}
                   alt="logo"
                   className="w-2xl rounded-md"
                 />
                 <h2 className="card-title text-xl font-semibold text-gray-800">
-                  {job.title} 
+                  {job.title}
                 </h2>
                 <p className="text-gray-600 text-sm">{job.company}</p>
 
-
                 <div className="card-actions mt-4 flex items-center">
                   <Link
-                    to={`/jobdetails/${job._id}`} 
+                    to={`/jobdetails/${job._id}`}
                     className="btn btn-primary w-full text-center text-white bg-cyan-300 py-2 px-3 rounded-md"
                   >
                     Details More
@@ -63,11 +62,6 @@ const HotJobs = () => {
             </div>
           </div>
         ))}
-      </div>
-      <div className="flex justify-center items-center py-10">
-        <button className="btn bg-cyan-400 py-2 px-4 rounded-md text-white font-bold">
-          Read More
-        </button>
       </div>
     </div>
   );

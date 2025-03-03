@@ -4,25 +4,51 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import AuthContext from "@/provider/AuthContext";
+import { useParams } from "react-router"; // 
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const JobApply = () => {
-  const { register, handleSubmit } = useForm(); // useForm থেকে register ও handleSubmit আনতে হবে
+  const { user } = useContext(AuthContext); 
+  const { id } = useParams(); 
+ 
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const { register, handleSubmit, reset } = useForm();
+
+  const onSubmit = async (data) => {
+    const applicationData = {
+      jobId: id,
+      applicantEmail: user?.email, 
+      linkedin: data.linkedin,
+      github: data.github,
+      resume: data.resume,
+    };
+
+    try {
+      const res = await axios.post(`http://localhost:5000/application`, applicationData);
+      if (res?.data?.insertedId) {
+        toast.success("Application submitted successfully!");
+        reset();
+      }
+    } catch (error) {
+      toast.error("Failed to submit application!");
+      console.error(error);
+    }
   };
 
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-muted p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-3xl">
         <div className={cn("flex flex-col gap-6")}>
           <Card className="overflow-hidden">
-            <CardContent className="grid p-0 ">
+            <CardContent className="grid p-0">
               <form onSubmit={handleSubmit(onSubmit)} className="p-6 md:p-8">
                 <div className="flex flex-col gap-6">
                   <div className="flex flex-col items-center text-center">
                     <h1 className="text-2xl font-bold">Apply Now</h1>
-                    <p className="text-balance text-muted-foreground">
+                    <p className="text-muted-foreground">
                       Login to your Acme Inc account
                     </p>
                   </div>

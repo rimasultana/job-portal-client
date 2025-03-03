@@ -34,7 +34,7 @@ const router = createBrowserRouter([
           fetch(`http://localhost:5000/jobs/${params.id}`),
       },
       {
-        path:"/jobapply/:id",
+        path: "/jobapply/:id",
         element:<JobApply/>
       },
       {
