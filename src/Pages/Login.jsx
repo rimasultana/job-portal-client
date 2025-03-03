@@ -16,6 +16,8 @@ export function Login() {
   const { register, handleSubmit, reset } = useForm();
   const { googleUser, signUser } = useContext(AuthContext);
   const navigate = useNavigate();
+//   const location = useLocation()
+//  const from = location.state || "/"
 
   const onSubmit = (data) => {
     console.log(data);
