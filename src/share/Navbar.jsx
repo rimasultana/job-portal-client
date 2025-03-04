@@ -62,6 +62,19 @@ const Navbar = () => {
           My Application
         </NavLink>
       </li>
+      <li>
+        {" "}
+        <NavLink
+          to={"/myapplication"}
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-2 text-cyan-400 border-cyan-400 rounded-b-md"
+              : ""
+          }
+        >
+          My Application
+        </NavLink>
+      </li>
     </>
   );
   return (
