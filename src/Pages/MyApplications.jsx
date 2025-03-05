@@ -20,56 +20,40 @@ const MyApplications = () => {
   }, [user.email]);
 
   return (
-    <div>
-      <h2>My Application: {jobs.length}</h2>
-      <table
-        style={{
-          width: "100%",
-          border: "1px solid #ddd",
-          borderCollapse: "collapse",
-          textAlign: "center",
-        }}
-      >
+    <div className="w-full md:11/12 mx-auto">
+      <h2 className="text-xl font-semibold mb-4 text-center my-10">My Applications: {jobs.length}</h2>
+      <table className="w-4/5 mx-auto border-2 border-gray-300 border-collapse text-center">
         <thead>
           <tr>
-            <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
-              Title
-            </th>
-            <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
-              Logo
-            </th>
-            <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
-              Company Name
-            </th>
-            <th style={{ padding: "10px", borderBottom: "2px solid #ddd" }}>
-              Email
-            </th>
+            <th className="py-3 px-4 border-b-2 border-r-2 border-gray-300">Title</th>
+            <th className="py-3 px-4 border-b-2 border-r-2 border-gray-300">Logo</th>
+            <th className="py-3 px-4 border-b-2 border-r-2 border-gray-300">Company Name</th>
+            <th className="py-3 px-4 border-b-2 border-gray-300">Email</th>
           </tr>
         </thead>
         <tbody>
           {jobs.length > 0 ? (
             jobs.map((application, index) => (
               <tr key={index}>
-                <td style={{ padding: "10px" }}>{application.title}</td>
-                <td style={{ padding: "10px" }}>
+                <td className="py-3 px-4 border-b-2 border-r-2 border-gray-300">{application.title}</td>
+                <td className="py-3 px-4 border-b-2 border-r-2 border-gray-300">
                   {application.company_logo ? (
                     <img
                       src={application.company_logo}
                       alt="Company Logo"
-                      width="50"
-                      height="50"
+                      className="w-16 h-12 rounded-full"
                     />
                   ) : (
                     <span>No Logo</span>
                   )}
                 </td>
-                <td style={{ padding: "10px" }}>{application.company}</td>
-                <td style={{ padding: "10px" }}>{user.email}</td>
+                <td className="py-3 px-4 border-b-2 border-r-2 border-gray-300">{application.company}</td>
+                <td className="py-3 px-4 border-b-2 border-gray-300">{user.email}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="4" style={{ padding: "10px" }}>
+              <td colSpan="4" className="py-3 px-4 text-center border-b-2 border-gray-300">
                 No applications found
               </td>
             </tr>
