@@ -7,7 +7,7 @@ import AuthContext from "@/provider/AuthContext";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const { users, logOut } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
   const links = (
     <>
       <li>
@@ -49,6 +49,19 @@ const Navbar = () => {
           Service
         </NavLink>
       </li>
+      <li>
+        {" "}
+        <NavLink
+          to={"/myapplication"}
+          className={({ isActive }) =>
+            isActive
+              ? "border-b-2 text-cyan-400 border-cyan-400 rounded-b-md"
+              : ""
+          }
+        >
+          My Application
+        </NavLink>
+      </li>
     </>
   );
   return (
@@ -63,8 +76,13 @@ const Navbar = () => {
         <nav className="hidden md:flex gap-5">
           <ul className="flex items-center gap-5">{links}</ul>
         </nav>
-        {users ? (
-          <button onClick={()=>logOut()} className="btn bg-cyan-400 font-bold py-2 px-3 rounded-md text-white">LogOut</button>
+        {user ? (
+          <button
+            onClick={() => logOut()}
+            className="btn bg-cyan-400 font-bold py-2 px-3 rounded-md text-white"
+          >
+            LogOut
+          </button>
         ) : (
           <div className="hidden md:flex">
             <Link

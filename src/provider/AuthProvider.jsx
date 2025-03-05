@@ -12,7 +12,7 @@ import {
 import auth from "@/firebase/firebaseconfig";
 
 const AuthProvider = ({ children }) => {
-  const [users, setUsers] = useState(null);
+  const [user, setuser] = useState(null);
   const [loading, setLoading] = useState(true);
   const googleProvider = new GoogleAuthProvider();
 
@@ -34,14 +34,14 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUsers(currentUser);
+      setuser(currentUser);
       setLoading(false);
     });
     return () => unsubscribe();
   }, []);
 
   const info = {
-    users,
+    user,
     loading,
     createLogin,
     signUser,

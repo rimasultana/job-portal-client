@@ -6,21 +6,23 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import AuthContext from "@/provider/AuthContext";
-import { useParams } from "react-router"; // 
+import { useNavigate, useParams } from "react-router"; // 
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const JobApply = () => {
   const { user } = useContext(AuthContext); 
   const { id } = useParams(); 
+  console.log(user, id);
+  const navigate = useNavigate()
  
 
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data) => {
     const applicationData = {
-      jobId: id,
-      applicantEmail: user?.email, 
+      job_id: id,
+      applicant_email: user?.email, 
       linkedin: data.linkedin,
       github: data.github,
       resume: data.resume,
@@ -31,6 +33,7 @@ const JobApply = () => {
       if (res?.data?.insertedId) {
         toast.success("Application submitted successfully!");
         reset();
+        navigate("/myapplication")
       }
     } catch (error) {
       toast.error("Failed to submit application!");
