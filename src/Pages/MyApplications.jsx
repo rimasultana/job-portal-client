@@ -21,7 +21,7 @@ const MyApplications = () => {
 
   return (
     <div className="w-full md:11/12 mx-auto">
-      <h2 className="text-xl font-semibold mb-4 text-center my-10">My Applications: {jobs.length}</h2>
+      <h2 className="text-xl font-semibold mb-4 text-center py-10">My Applications: {jobs.length}</h2>
       <table className="w-4/5 mx-auto border-2 border-gray-300 border-collapse text-center">
         <thead>
           <tr>

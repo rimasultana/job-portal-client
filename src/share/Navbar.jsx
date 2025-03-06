@@ -65,14 +65,14 @@ const Navbar = () => {
       <li>
         {" "}
         <NavLink
-          to={"/myapplication"}
+          to={"/addjob"}
           className={({ isActive }) =>
             isActive
               ? "border-b-2 text-cyan-400 border-cyan-400 rounded-b-md"
               : ""
           }
         >
-          My Application
+          Add Job
         </NavLink>
       </li>
     </>
