@@ -1,6 +1,7 @@
 import AuthContext from "@/provider/AuthContext";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router";
 
 const MyPostedJobs = () => {
   const { user } = useContext(AuthContext);
@@ -14,7 +15,7 @@ const MyPostedJobs = () => {
         .get(`http://localhost:5000/jobs?email=${user.email}`)
         .then((response) => {
           console.log(response.data);
-          setJobs(response.data); // Update jobs state with the fetched data
+          setJobs(response.data);
         })
         .catch((error) => {
           console.error("Error fetching jobs:", error);
@@ -35,10 +36,12 @@ const MyPostedJobs = () => {
               <th className="px-4 py-2 text-left text-gray-600">#</th>
               <th className="px-4 py-2 text-left text-gray-600">Title</th>
               <th className="px-4 py-2 text-left text-gray-600">Location</th>
+              <th className="px-4 py-2 text-left text-gray-600">Category</th>
+              <th className="px-4 py-2 text-left text-gray-600">Hr Email</th>
               <th className="px-4 py-2 text-left text-gray-600">
-                Company Logo
+                Application Id
               </th>
-              <th className="px-4 py-2 text-left text-gray-600">Actions</th>
+              <th className="px-4 py-2 text-left text-gray-600">view</th>
             </tr>
           </thead>
           <tbody>
@@ -49,6 +52,14 @@ const MyPostedJobs = () => {
                 <td className="px-4 py-2 text-gray-700">{job.location}</td>
                 <td className="px-4 py-2">{job.category}</td>
                 <td className="px-4 py-2">{job.hr_email}</td>
+                <td className="px-4 py-2">{job.applicationCount}</td>
+                <td>
+                  <Link to={"/viewapplication/:job_id"}>
+                    <button className="btn bg-cyan-500 py-2 px-3">
+                      View Application
+                    </button>
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>
