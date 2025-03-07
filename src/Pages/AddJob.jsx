@@ -1,8 +1,21 @@
 import { Link } from "react-router";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const AddJob = () => {
   const [image, setImage] = useState(null);
+
+  const { register, handleSubmit, reset } = useForm();
+
+  const onSubmit = (data) =>
+    axios.post("http://localhost:5000/jobs", data)
+  .then((res) => {
+      console.log(res.data);
+      toast.success("Post Data Successfully");
+      reset()
+    });
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -20,10 +33,14 @@ const AddJob = () => {
         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
           Add New Job
         </h2>
-        <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
           <label className="flex flex-col gap-2 text-gray-700">
             Job Title
             <input
+              {...register("title", { required: true })}
               type="text"
               placeholder="Job title"
               className="border border-gray-300 p-2 rounded w-full"
@@ -32,6 +49,7 @@ const AddJob = () => {
           <label className="flex flex-col gap-2 text-gray-700">
             Job Location
             <input
+              {...register("location", { required: true })}
               type="text"
               placeholder="Job Location"
               className="border border-gray-300 p-2 rounded w-full"
@@ -40,6 +58,7 @@ const AddJob = () => {
           <label className="flex flex-col gap-2 text-gray-700">
             Company
             <input
+              {...register("company", { required: true })}
               type="text"
               placeholder="Company"
               className="border border-gray-300 p-2 rounded w-full"
@@ -48,6 +67,7 @@ const AddJob = () => {
           <label className="flex flex-col gap-2 text-gray-700">
             Date
             <input
+              {...register("date", { required: true })}
               type="date"
               className="border border-gray-300 p-2 rounded w-full"
             />
@@ -55,8 +75,11 @@ const AddJob = () => {
 
           <label className="flex flex-col gap-2 text-gray-700">
             Job Type
-            <select className="border border-gray-300 p-2 rounded w-full">
-              <option value="" disabled selected>
+            <select
+              {...register("jobType", { required: true })}
+              className="border border-gray-300 p-2 rounded w-full"
+            >
+              <option value="" disabled>
                 Pick a Job Type
               </option>
               <option value="full-time">Full Time</option>
@@ -71,18 +94,27 @@ const AddJob = () => {
               Salary Range
               <div className="flex gap-4">
                 <input
+                  {...register("salaryMin", {
+                    required: true,
+                    valueAsNumber: true,
+                  })}
                   type="number"
                   placeholder="Min"
                   className="border border-gray-300 p-2 rounded w-full"
-                  required
                 />
                 <input
+                  {...register("salaryMax", {
+                    required: true,
+                    valueAsNumber: true,
+                  })}
                   type="number"
                   placeholder="Max"
                   className="border border-gray-300 p-2 rounded w-full"
-                  required
                 />
-                <select className="border border-gray-300 p-2 rounded w-full">
+                <select
+                  {...register("currency", { required: true })}
+                  className="border border-gray-300 p-2 rounded w-full"
+                >
                   <option value="USD">USD</option>
                   <option value="BDT">BDT</option>
                   <option value="EUR">EUR</option>
@@ -97,6 +129,7 @@ const AddJob = () => {
           <label className="flex flex-col gap-2 text-gray-700 md:col-span-2">
             Upload Company Logo
             <input
+              {...register("companyLogo")}
               type="file"
               accept="image/*"
               className="border border-gray-300 p-2 rounded w-full"
@@ -115,6 +148,7 @@ const AddJob = () => {
             <label className="flex flex-col gap-2 text-gray-700">
               Job Description
               <textarea
+                {...register("description", { required: true })}
                 className="border border-gray-300 p-2 rounded w-full"
                 rows="5"
                 placeholder="Enter job description..."
