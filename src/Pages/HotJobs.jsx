@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router"; // ✅ Import Router Correctly
 import { motion } from "framer-motion";
 
 const HotJobs = () => {
@@ -10,7 +10,7 @@ const HotJobs = () => {
     axios
       .get(`http://localhost:5000/jobs`)
       .then((res) => {
-        setJobs(res.data.slice(0, 8));
+        setJobs(res.data.slice(0, 8)); // ✅ প্রথম ৮টি জব দেখাবে
       })
       .catch((error) => {
         console.log(error);
@@ -18,49 +18,42 @@ const HotJobs = () => {
   }, []);
 
   return (
-    <div className="w-11/12 mx-auto">
-      <h1 className="text-center font-bold text-xl lg:text-3xl pb-10">
-        All Jobs
+    <div className="w-11/12 mx-auto py-10">
+      <h1 className="text-center font-bold text-2xl lg:text-3xl pb-10 text-gray-800">
+        Featured Jobs
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {jobs.map((job) => (
-          <div key={job._id}>
-            <div className="card w-full bg-white shadow-lg border border-gray-200 rounded-xl p-3">
-              <motion.div
-                whileHover={{
-                  scale: [null, 1, 1.1],
-                  transition: {
-                    duration: 0.3,
-                    times: [0, 0.6, 1],
-                  },
-                }}
-                transition={{
-                  duration: 0.3,
-                  ease: "easeOut",
-                }}
-                className="card-body"
-              >
-                <img
-                  src={job.company_logo}
-                  alt="logo"
-                  className="w-2xl rounded-md"
-                />
-                <h2 className="card-title text-xl font-semibold text-gray-800">
-                  {job.title}
-                </h2>
-                <p className="text-gray-600 text-sm">{job.company}</p>
+          <motion.div
+            key={job._id}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="bg-white shadow-lg border border-gray-200 rounded-xl p-4"
+          >
+            <img
+              src={job.company_logo}
+              alt={job.company}
+              className="w-full h-28 object-contain rounded-md"
+            />
+            <h2 className="text-lg font-semibold text-gray-900 mt-3">
+              {job.title}
+            </h2>
+            <p className="text-gray-600 text-sm">{job.company}</p>
+            <p className="text-sm text-gray-500">
+              📍 {job.location} | {job.jobType}
+            </p>
+            <p className="text-sm font-semibold text-gray-700">
+              💰 Salary: {job.salaryRange?.min} - {job.salaryRange?.max}{" "}
+              {job.salaryRange?.currency.toUpperCase()}
+            </p>
 
-                <div className="card-actions mt-4 flex items-center">
-                  <Link
-                    to={`/jobdetails/${job._id}`}
-                    className="btn btn-primary w-full text-center text-white bg-cyan-300 py-2 px-3 rounded-md"
-                  >
-                    Details More
-                  </Link>
-                </div>
-              </motion.div>
-            </div>
-          </div>
+            <Link
+              to={`/jobdetails/${job._id}`}
+              className="mt-4 inline-block text-center bg-cyan-500 text-white py-2 px-4 rounded-md w-full hover:bg-cyan-600 transition-all"
+            >
+              View Details
+            </Link>
+          </motion.div>
         ))}
       </div>
     </div>

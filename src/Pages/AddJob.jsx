@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -6,16 +6,23 @@ import toast from "react-hot-toast";
 
 const AddJob = () => {
   const [image, setImage] = useState(null);
-
+  const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = (data) =>
-    axios.post("http://localhost:5000/jobs", data)
-  .then((res) => {
-      console.log(res.data);
-      toast.success("Post Data Successfully");
-      reset()
-    });
+  const onSubmit = async (data) => {
+    axios
+      .post("http://localhost:5000/jobs", data)
+      .then((res) => {
+        console.log(res.data);
+        toast.success("Job Posted Successfully!");
+        reset();
+        navigate("/mypostedjobs");
+      })
+      .catch((error) => {
+        console.error("Failed to post job:", error);
+        toast.error("Failed to post job. Try again.");
+      });
+  };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -65,9 +72,18 @@ const AddJob = () => {
             />
           </label>
           <label className="flex flex-col gap-2 text-gray-700">
-            Date
+            Job Category
             <input
-              {...register("date", { required: true })}
+              {...register("category", { required: true })}
+              type="text"
+              placeholder="Category (e.g., Engineering, IT, Marketing)"
+              className="border border-gray-300 p-2 rounded w-full"
+            />
+          </label>
+          <label className="flex flex-col gap-2 text-gray-700">
+            Application Deadline
+            <input
+              {...register("applicationDeadline", { required: true })}
               type="date"
               className="border border-gray-300 p-2 rounded w-full"
             />
@@ -79,16 +95,14 @@ const AddJob = () => {
               {...register("jobType", { required: true })}
               className="border border-gray-300 p-2 rounded w-full"
             >
-              <option value="" disabled>
-                Pick a Job Type
-              </option>
               <option value="full-time">Full Time</option>
               <option value="part-time">Part Time</option>
               <option value="intern">Intern</option>
+              <option value="hybrid">Hybrid</option>
             </select>
           </label>
 
-          {/* Salary Range Section */}
+          {/* Salary Range */}
           <div className="md:col-span-2">
             <label className="flex flex-col gap-2 text-gray-700">
               Salary Range
@@ -125,7 +139,7 @@ const AddJob = () => {
             </label>
           </div>
 
-          {/* Image Upload Input */}
+          {/* Image Upload */}
           <label className="flex flex-col gap-2 text-gray-700 md:col-span-2">
             Upload Company Logo
             <input
@@ -144,17 +158,56 @@ const AddJob = () => {
             )}
           </label>
 
+          {/* Job Description */}
           <div className="md:col-span-2">
             <label className="flex flex-col gap-2 text-gray-700">
               Job Description
               <textarea
                 {...register("description", { required: true })}
                 className="border border-gray-300 p-2 rounded w-full"
-                rows="5"
+                rows="4"
                 placeholder="Enter job description..."
               ></textarea>
             </label>
           </div>
+
+          {/* Requirements */}
+          <div className="md:col-span-2">
+            <label className="flex flex-col gap-2 text-gray-700">
+              Requirements (Each on a new line)
+              <textarea
+                {...register("requirements", { required: true })}
+                className="border border-gray-300 p-2 rounded w-full"
+                rows="3"
+                placeholder="Requirement 1&#10;Requirement 2"
+              ></textarea>
+            </label>
+          </div>
+
+          {/* Responsibilities */}
+          <div className="md:col-span-2">
+            <label className="flex flex-col gap-2 text-gray-700">
+              Responsibilities (Each on a new line)
+              <textarea
+                {...register("responsibilities", { required: true })}
+                className="border border-gray-300 p-2 rounded w-full"
+                rows="3"
+                placeholder="Responsibility 1&#10;Responsibility 2"
+              ></textarea>
+            </label>
+          </div>
+
+          {/* HR Email */}
+          <label className="flex flex-col gap-2 text-gray-700 md:col-span-2">
+            HR Email
+            <input
+              {...register("hr_email", { required: true })}
+              type="email"
+              placeholder="HR Email"
+              className="border border-gray-300 p-2 rounded w-full"
+            />
+          </label>
+
           <button
             type="submit"
             className="md:col-span-2 bg-cyan-500 text-white p-2 rounded hover:bg-yellow-600 transition-all"
