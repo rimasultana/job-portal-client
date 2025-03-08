@@ -11,21 +11,27 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useContext } from "react";
 import AuthContext from "@/provider/AuthContext";
+import axios from "axios";
 
 export function Login() {
   const { register, handleSubmit, reset } = useForm();
   const { googleUser, signUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation()
- const from = location.state || "/"
+  const location = useLocation();
+  const from = location.state || "/";
 
   const onSubmit = (data) => {
     console.log(data);
     signUser(data.email, data.password)
       .then((result) => {
+        console.log("Sign in", result.user.email);
+        const user = { email: data.email };
+        axios.post(`http://localhost:5000/jwt`, user).then((data) => {
+          console.log(data);
+        });
         toast.success("Register Successfully!", result);
         reset();
-        navigate(from, {replace:true});
+        // navigate(from, { replace: true });
       })
       .catch((error) => {
         toast.error(`Falied Register! Pleaase try again!, ${error.messege}`);
@@ -35,7 +41,7 @@ export function Login() {
     googleUser()
       .then(() => {
         toast.success("Successfully Login!");
-        navigate(from, {replace: true});
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         toast.error(`Falied Register! Pleaase try again!, ${error.messege}`);
