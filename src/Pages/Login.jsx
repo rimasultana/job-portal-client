@@ -26,9 +26,13 @@ export function Login() {
       .then((result) => {
         console.log("Sign in", result.user.email);
         const user = { email: data.email };
-        axios.post(`http://localhost:5000/jwt`, user).then((data) => {
-          console.log(data);
-        });
+        axios
+          .post(`http://localhost:5000/jwt`, user, {
+            withCredentials: true,
+          })
+          .then((res) => {
+            console.log(res.data);
+          });
         toast.success("Register Successfully!", result);
         reset();
         // navigate(from, { replace: true });

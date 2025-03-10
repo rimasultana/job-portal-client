@@ -12,9 +12,10 @@ const MyPostedJobs = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:5000/jobs?email=${user.email}`)
+        .get(`http://localhost:5000/jobs?email=${user.email}`, {
+          withCredentials: true,
+        })
         .then((response) => {
-          console.log(response.data);
           setJobs(response.data);
         })
         .catch((error) => {
