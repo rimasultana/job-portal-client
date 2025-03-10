@@ -12,10 +12,9 @@ const MyPostedJobs = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:5000/jobs?email=${user.email}`, {
-          withCredentials: true,
-        })
+        .get(`http://localhost:5000/jobs?email=${user.email}`)
         .then((response) => {
+          console.log(response.data);
           setJobs(response.data);
         })
         .catch((error) => {
@@ -29,7 +28,6 @@ const MyPostedJobs = () => {
       <h1 className="text-2xl font-semibold mb-6">
         Your Posted Jobs ({jobs.length})
       </h1>
-      {/* Conditionally render if jobs are available */}
       {jobs.length > 0 ? (
         <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
           <thead>
@@ -55,7 +53,7 @@ const MyPostedJobs = () => {
                 <td className="px-4 py-2">{job.hr_email}</td>
                 <td className="px-4 py-2">{job.applicationCount}</td>
                 <td>
-                  <Link to={"/viewapplication/:job_id"}>
+                  <Link to={"/viewapplication/:job-id"}>
                     <button className="btn bg-cyan-500 py-2 px-3">
                       View Application
                     </button>
