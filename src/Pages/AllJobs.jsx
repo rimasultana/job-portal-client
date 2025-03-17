@@ -3,26 +3,35 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 
-
 const AllJobs = () => {
   const [jobs, setJobs] = useState([]);
+  const [sort, setSort] = useState(false);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/jobs`)
+      .get(`http://localhost:5000/jobs?sort=${sort}`)
       .then((res) => {
         setJobs(res.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [sort]);
 
   return (
     <div className="w-11/12 mx-auto py-10">
+      <div>
+        <button
+          onClick={() => setSort(!sort)}
+          className={`btn bg-amber-500 py-4 px-6 ${sort && "btn bg-green-700"}`}
+        >
+          {sort == true ? "Sorted by salary" : "sort by salary"}
+        </button>
+      </div>
       <h1 className="text-center font-bold text-2xl lg:text-3xl pb-10 text-gray-800">
         All Jobs
       </h1>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {jobs.map((job) => (
           <motion.div
