@@ -1,16 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router"; 
+import { Link } from "react-router";
 import { motion } from "framer-motion";
 
-const HotJobs = () => {
+
+const AllJobs = () => {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
     axios
       .get(`http://localhost:5000/jobs`)
       .then((res) => {
-        setJobs(res.data.slice(0, 8));
+        setJobs(res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -20,7 +21,7 @@ const HotJobs = () => {
   return (
     <div className="w-11/12 mx-auto py-10">
       <h1 className="text-center font-bold text-2xl lg:text-3xl pb-10 text-gray-800">
-        Featured Jobs
+        All Jobs
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {jobs.map((job) => (
@@ -60,4 +61,4 @@ const HotJobs = () => {
   );
 };
 
-export default HotJobs;
+export default AllJobs;

@@ -39,14 +39,14 @@ const Navbar = () => {
       <li>
         {" "}
         <NavLink
-          to={"/service"}
+          to={"/alljobs"}
           className={({ isActive }) =>
             isActive
               ? "border-b-2 text-cyan-400 border-cyan-400 rounded-b-md"
               : ""
           }
         >
-          Service
+          All Jobs
         </NavLink>
       </li>
       <li>
