@@ -6,21 +6,28 @@ import { motion } from "framer-motion";
 const AllJobs = () => {
   const [jobs, setJobs] = useState([]);
   const [sort, setSort] = useState(false);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/jobs?sort=${sort}`)
+      .get(`http://localhost:5000/jobs?sort=${sort}&search=${search}`)
       .then((res) => {
         setJobs(res.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [sort]);
+  }, [sort, search]);
 
   return (
     <div className="w-11/12 mx-auto py-10">
-      <div>
+      <div className="flex justify-center w-7xl my-5">
+        <input
+          onKeyUp={(e) => setSearch(e.target.value)}
+          className="border border-gray-200 items-center px-5"
+          type="text"
+          placeholder="searching by location"
+        />
         <button
           onClick={() => setSort(!sort)}
           className={`btn bg-amber-500 py-4 px-6 ${sort && "btn bg-green-700"}`}
